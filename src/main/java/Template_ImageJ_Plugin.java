@@ -3,8 +3,7 @@ import ij.ImageJ;
 import ij.ImagePlus;
 import ij.gui.GenericDialog;
 import ij.plugin.PlugIn;
-import ij.process.ImageProcessor;
-
+import process.Process;
 
 public class Template_ImageJ_Plugin implements PlugIn {
 
@@ -23,17 +22,11 @@ public class Template_ImageJ_Plugin implements PlugIn {
 		if (gd.wasCanceled())
 			return;
 		double value = gd.getNextNumber();
+		Process p = new Process();
 		for (int i = 1; i <= imp.getStackSize(); i++)
-			add(imp.getStack().getProcessor(i), value);
+			p.process(imp.getStack().getProcessor(i), value);
 		imp.updateAndDraw();
 	}
-
-	private void add(ImageProcessor ip, double value) {
-		for (int x=0; x < ip.getWidth(); x++)
-		for (int y=0; y < ip.getHeight(); y++)
-			ip.putPixelValue(x, y, ip.getPixelValue(x, y) + value);
-	}
-
 
 	public static void main(String[] args) {
 		// set the plugins.dir property to make the plugin appear in the Plugins menu
